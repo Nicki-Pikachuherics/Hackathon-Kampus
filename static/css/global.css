@@ -1,0 +1,41 @@
+:root {
+  /* colors */
+  --black: #000;
+  --white: #fff;
+  --color-for-menu-item: var(--black);
+  --header-bg-for-index: #C2E85C;
+  --bg-for-projects: #4D54FB;
+  --text-black: var(--black);
+  --text-white: var(--white);
+  --text-for-project: var(--header-bg-for-index);
+  --hover-color-for-menu-item: #5e5c5c;
+
+  /* width */
+  --width-1100: 1100px;
+  --width-1400: 1400px;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  margin: 0;
+  width: 100%;
+}
+
+a {
+  text-decoration: none;
+}
+
+/* animations */
+@keyframes up-down {
+  0% {
+    transform: translateY(-150%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes smoothly {
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+}
