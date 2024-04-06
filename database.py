@@ -33,7 +33,7 @@ class Database:
                     'phone_number': row[3],
                     'email': row[4],
                     'university': Database.getUniversityById(row[5]),
-                    'options': json.loads(row[6]),
+                    'options': row[6],
                     'name': row[7],
                     'surname': row[8],
                     'lastname': row[9],
@@ -58,7 +58,7 @@ class Database:
                     'phone_number': row[3],
                     'email': row[4],
                     'university': Database.getUniversityById(row[5]),
-                    'options': json.loads(row[6]),
+                    'options': row[6],
                     'name': row[7],
                     'surname': row[8],
                     'lastname': row[9],
@@ -81,7 +81,7 @@ class Database:
                     'phone_number': row[3],
                     'email': row[4],
                     'university': Database.getUniversityById(row[5]),
-                    'options': json.loads(row[6]),
+                    'options': row[6],
                     'name': row[7],
                     'surname': row[8],
                     'lastname': row[9],
@@ -104,7 +104,7 @@ class Database:
                     'phone_number': row[3],
                     'email': row[4],
                     'university': Database.getUniversityById(row[5]),
-                    'options': json.loads(row[6]),
+                    'options': row[6],
                     'name': row[7],
                     'surname': row[8],
                     'lastname': row[9],
@@ -127,7 +127,7 @@ class Database:
                     'phone_number': row[3],
                     'email': row[4],
                     'university': Database.getUniversityById(row[5]),
-                    'options': json.loads(row[6]),
+                    'options': row[6],
                     'name': row[7],
                     'surname': row[8],
                     'lastname': row[9],
@@ -178,7 +178,7 @@ class Database:
             rows = cursor.fetchall()
             return [{
                 'id': row[0],
-                'data': json.loads(row[1]),
+                'data': row[1],
                 'university_id': row[2],
                 'creation_time': row[3]
             } for row in rows]
@@ -191,7 +191,7 @@ class Database:
             rows = cursor.fetchall()
             posts = [{
                 'id': row[0],
-                'data': json.loads(row[1]),
+                'data': row[1],
                 'university_id': row[2],
                 'creation_time': row[3]
             } for row in rows]
@@ -212,7 +212,7 @@ class Database:
             rows = cursor.fetchall()
             posts = [{
                 'id': row[0],
-                'data': json.loads(row[1]),
+                'data': row[1],
                 'university_id': row[2],
                 'creation_time': row[3]
             } for row in rows]
@@ -231,7 +231,7 @@ class Database:
             row = cursor.fetchone()
             return {
                 'id': row[0],
-                'data': json.loads(row[1]),
+                'data': row[1],
                 'university_id': row[2],
                 'creation_time': row[3],
                 'likes': Database.getPostLikes(id)
@@ -249,13 +249,13 @@ class Database:
         with psycopg2.connect(Database.connectionstring) as conn:
             cursor = conn.cursor()
             cursor.execute('SELECT options from users WHERE id = %s', (userid,))
-            return json.loads(cursor.fetchone()[0])
+            return cursor.fetchone()[0]
     
     @staticmethod
     def updateUserOptions(userid: int, options: dict):
         with psycopg2.connect(Database.connectionstring) as conn:
             cursor = conn.cursor()
-            cursor.execute('UPDATE users SET options = %s WHERE id = %s', (json.dumps(options), userid,))
+            cursor.execute('UPDATE users SET options = %s WHERE id = %s', (json.dumps(options), userid,)) #FIXME: Возможно не надо dumps для json
             conn.commit()
     
     @staticmethod
@@ -266,7 +266,7 @@ class Database:
             rows = cursor.fetchall()
             return [{
                 'id': row[0],
-                'data': json.loads(row[1]),
+                'data': row[1],
                 'creation_time': row[2]
             } for row in rows]
     
@@ -278,7 +278,7 @@ class Database:
             row = cursor.fetchone()
             return {
                 'id': row[0],
-                'data': json.loads(row[1]),
+                'data': row[1],
                 'creation_time': row[2]
             }
     
@@ -290,7 +290,7 @@ class Database:
             rows = cursor.fetchall()
             return [{
                 'id': row[0],
-                'data': json.loads(row[1]),
+                'data': row[1],
                 'creation_time': row[2]
             } for row in rows]
     
@@ -306,7 +306,20 @@ class Database:
         events = Database.getEventsForUniversity(university['id'])
         #TODO: Вот эту логику надо будет жестко проработать, это буквально система рекомендаций
         return events
-
+    @staticmethod
+    def GetAllUnivercities():
+        with psycopg2.connect(Database.connectionstring) as conn:
+            cursor = conn.cursor()
+            cursor.execute('SELECT * FROM universities')
+            rows = cursor.fetchall()
+            output = []
+            for row in rows:
+                output.append({
+                    'id': row[0],
+                    'name': row[1],
+                    'options': row[2]
+                }) 
+            return output
     @staticmethod
     def getUniversityById(id: int):
         with psycopg2.connect(Database.connectionstring) as conn:
@@ -316,5 +329,5 @@ class Database:
             return {
                 'id': row[0],
                 'name': row[1],
-                'options': json.loads(row[2])
+                'options': row[2]
             }
