@@ -23,7 +23,7 @@ def hashPassword(password):
 
 class Database:
     connectionstring = f'host={DB_HOST} user={DB_USER} password={DB_PASSWORD!r} dbname={DB_NAME}'
-    #TODO Распихать выводы в json для удобства
+
     @staticmethod
     def getAllUsers():
         with psycopg2.connect(Database.connectionstring) as conn:
