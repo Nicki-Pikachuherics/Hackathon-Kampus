@@ -8,10 +8,12 @@ from datetime import datetime
 import telebot
 
 app = Sanic("HackathonCampus") #Инициализировали Sanic
+
 env = Environment( #Инициализировали Jinja2
     loader=FileSystemLoader('templates'),  # Указали путь к шаблонам для Jinja2
     autoescape=select_autoescape(['html', 'xml']) # Указали типы файлы
 )
+
 app.static("/static/", "./static/") # Маршрут на папку со статичными файлами
 
 Session(app)
