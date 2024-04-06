@@ -22,7 +22,7 @@ class Database:
     def getAllUsers():
         with psycopg2.connect(Database.connectionstring) as conn:
             cursor = conn.cursor()
-            cursor.execute('SELECT users.id, roles.role, users.login, users.phone_number, users.email, users.university_id, users.options, users.name, users.surname, users.lastname, users.birthsday, users.gender, professions.name from users join genders on users.gender = genders.id join roles on users.role = roles.id join profession on users.profession = profession.id order by id')
+            cursor.execute('SELECT users.id, roles.role, users.login, users.phone_number, users.email, users.university_id, users.options, users.name, users.surname, users.lastname, users.birthsday, users.gender, professions.name from users join genders on users.gender = genders.id join roles on users.role = roles.id join profession on users.profession_id = professions.id order by id')
             rows = cursor.fetchall()
             output = []
             for row in rows:
@@ -164,12 +164,149 @@ class Database:
             return not already_liked
     
     @staticmethod
+    def getPostLikes(postid: int):
+        with psycopg2.connect(Database.connectionstring) as conn:
+            cursor = conn.cursor()
+            cursor.execute('SELECT COUNT(*) FROM likes WHERE post_id = %s', (postid,))
+            return cursor.fetchone()[0]
+    
+    @staticmethod
+    def getUserPosts(userid: int):
+        with psycopg2.connect(Database.connectionstring) as conn:
+            cursor = conn.cursor()
+            cursor.execute('SELECT * FROM posts WHERE data.user_id = %s', (userid,))
+            rows = cursor.fetchall()
+            return [{
+                'id': row[0],
+                'data': json.loads(row[1]),
+                'university_id': row[2],
+                'creation_time': row[3]
+            } for row in rows]
+    
+    @staticmethod
+    def getAllPosts():
+        with psycopg2.connect(Database.connectionstring) as conn:
+            cursor = conn.cursor()
+            cursor.execute('SELECT * FROM posts')
+            rows = cursor.fetchall()
+            posts = [{
+                'id': row[0],
+                'data': json.loads(row[1]),
+                'university_id': row[2],
+                'creation_time': row[3]
+            } for row in rows]
+            for post in posts: post['likes'] = Database.getPostLikes(post['id'])
+            return posts
+
+    @staticmethod
+    def getPostsForUser(userid: int):
+        posts = Database.getAllPosts()
+        #TODO: Вот эту логику надо будет жестко проработать, это буквально система рекомендаций
+        return posts
+    
+    @staticmethod
+    def getPostsForUniversity(universityid: int):
+        with psycopg2.connect(Database.connectionstring) as conn:
+            cursor = conn.cursor()
+            cursor.execute('SELECT * FROM posts WHERE university_id = %s', (universityid,))
+            rows = cursor.fetchall()
+            posts = [{
+                'id': row[0],
+                'data': json.loads(row[1]),
+                'university_id': row[2],
+                'creation_time': row[3]
+            } for row in rows]
+            for post in posts: post['likes'] = Database.getPostLikes(post['id'])
+            return posts
+    
+    @staticmethod
+    def getPostsForUserInUniversity(user_id: int):
+        return Database.getPostsForUniversity(Database.getUserUniversity(user_id)['id'])
+    
+    @staticmethod
+    def getPostById(id: int):
+        with psycopg2.connect(Database.connectionstring) as conn:
+            cursor = conn.cursor()
+            cursor.execute('SELECT * FROM posts WHERE id = %s', (id,))
+            row = cursor.fetchone()
+            return {
+                'id': row[0],
+                'data': json.loads(row[1]),
+                'university_id': row[2],
+                'creation_time': row[3],
+                'likes': Database.getPostLikes(id)
+            }
+    
+    @staticmethod
     def getUserUniversity(userid: int):
         with psycopg2.connect(Database.connectionstring) as conn:
             cursor = conn.cursor()
             cursor.execute('SELECT university_id from users WHERE id = %s', (userid,))
             return Database.getUniversityById(cursor.fetchone()[0])
     
+    @staticmethod
+    def getUserOptions(userid: int):
+        with psycopg2.connect(Database.connectionstring) as conn:
+            cursor = conn.cursor()
+            cursor.execute('SELECT options from users WHERE id = %s', (userid,))
+            return json.loads(cursor.fetchone()[0])
+    
+    @staticmethod
+    def updateUserOptions(userid: int, options: dict):
+        with psycopg2.connect(Database.connectionstring) as conn:
+            cursor = conn.cursor()
+            cursor.execute('UPDATE users SET options = %s WHERE id = %s', (json.dumps(options), userid,))
+            conn.commit()
+    
+    @staticmethod
+    def getAllEvents():
+        with psycopg2.connect(Database.connectionstring) as conn:
+            cursor = conn.cursor()
+            cursor.execute('SELECT * FROM events')
+            rows = cursor.fetchall()
+            return [{
+                'id': row[0],
+                'data': json.loads(row[1]),
+                'creation_time': row[2]
+            } for row in rows]
+    
+    @staticmethod
+    def getEventById(id: int):
+        with psycopg2.connect(Database.connectionstring) as conn:
+            cursor = conn.cursor()
+            cursor.execute('SELECT * FROM events WHERE id = %s', (id,))
+            row = cursor.fetchone()
+            return {
+                'id': row[0],
+                'data': json.loads(row[1]),
+                'creation_time': row[2]
+            }
+    
+    @staticmethod
+    def getEventsForUniversity(universityid: int):
+        with psycopg2.connect(Database.connectionstring) as conn:
+            cursor = conn.cursor()
+            cursor.execute('SELECT * FROM events WHERE data.university_id = %s', (universityid,))
+            rows = cursor.fetchall()
+            return [{
+                'id': row[0],
+                'data': json.loads(row[1]),
+                'creation_time': row[2]
+            } for row in rows]
+    
+    @staticmethod
+    def getAllEventsForUser(userid: int):
+        events = Database.getAllEvents()
+        #TODO: Вот эту логику надо будет жестко проработать, это буквально система рекомендаций
+        return events
+    
+    @staticmethod
+    def getEventsForUserInUniversity(userid: int):
+        university = Database.getUserUniversity(userid)
+        events = Database.getEventsForUniversity(university['id'])
+        #TODO: Вот эту логику надо будет жестко проработать, это буквально система рекомендаций
+        return events
+
     @staticmethod
     def getUniversityById(id: int):
         with psycopg2.connect(Database.connectionstring) as conn:
