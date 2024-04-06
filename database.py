@@ -89,7 +89,54 @@ class Database:
                     'gender': row[11],
                     'profession': row[12]
                 }
+        
+    def getPostComments(postid):
+        with psycopg2.connect(Database.connectionstring) as conn:
+            cursor = conn.cursor()
+            cursor.execute('SELECT comments.id, users.login, users.name, users.surname, users.lastname, users.id, comments.text from comments join users on comments.user_id = users.id WHERE comments.post_id = %s', (postid,))
+            rows = cursor.fetchall()
+            output = []
+            for row in rows:
+                output.append({
+                    'id': row[0],
+                    'login': row[1],
+                    'name': row[2],
+                    'surname': row[3],
+                    'lastname': row[4],
+                    'user_id': row[5],
+                    'text': row[6]
+                })
+            return output
     
+    def createPost(userid, data):
+        with psycopg2.connect(Database.connectionstring) as conn:
+            cursor = conn.cursor()
+            user = Database.getUserById(userid)
+            if not user: raise ValueError('User not found')
+            if user['role'] == 'Организатор' or user['role'] == 'Асессор' or user['role'] == 'Администратор':
+                cursor.execute('INSERT INTO posts(data, university_id, creation_time) VALUES (%s, %s, CURRENT_TIMESTAMP)', (data, user['university_id']))
+            else: raise ValueError('User not allowed to create post')
+            conn.commit()
+    
+    def getUniversityByName(name):
+        with psycopg2.connect(Database.connectionstring) as conn:
+            cursor = conn.cursor()
+            cursor.execute('SELECT id, name, options from universities WHERE name = %s', (name,))
+            row = cursor.fetchone()
+            if not row:
+                return None
+            return {
+                    'id': row[0],
+                    'name': row[1],
+                    'options': row[2]
+                }
+    
+    def CommentPost(postid, userid, text):
+        with psycopg2.connect(Database.connectionstring) as conn:
+            cursor = conn.cursor()
+            cursor.execute('INSERT INTO comments(post_id, user_id, text) VALUES (%s, %s, %s)', (postid, userid, text))
+            conn.commit()
+        
     def getUserByPhone(phone):
         with psycopg2.connect(Database.connectionstring) as conn:
             cursor = conn.cursor()

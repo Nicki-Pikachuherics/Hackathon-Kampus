@@ -24,6 +24,40 @@ async def index(request):
     template = env.get_template('index.html') #Получили шаблон
     return response.html(template.render(data=data))
 
+@app.get('/post/comments')
+async def get_comments(request):
+    user = request.ctx.session.get('user_id')
+    postid = request.args.get('postid')
+    post = Database.getPostById(postid)
+    #TODO: Проверка на то, существует ли пост и пользователь имеет права просматривать его
+    commentscount = request.args.get('count')
+    if not commentscount: commentscount = 3
+    comments = Database.getPostComments(postid)
+    return json({'comments':comments[:int(commentscount)], 'maxcount':len(comments)}, status=200)
+
+@app.get('/post')
+async def get_post(request):
+    user = request.ctx.session.get('user_id')
+    postid = request.args.get('postid')
+    if not postid: return text("Bad request", status=400)
+    post = Database.getPostById(postid)
+    #TODO: Проверка на то, существует ли пост и пользователь имеет права просматривать его
+    data = {}
+    data['post'] = post
+    template = env.get_template('post.html') #Получили шаблон
+    return response.html(template.render(data=data))
+
+@app.post('/comment/post')
+async def comment_post(request):
+    userid = request.ctx.session.get('user_id')
+    postid = request.json.get('postid')
+    text = request.json.get('text')
+    if not userid: return text("Unauthorized", status=401)
+    if not postid: return text("Bad request", status=400)
+    if not text: return text("Bad request", status=400)
+    Database.CommentPost(userid, postid, text)
+    return json({'status':'OK'}, status=200)
+
 @app.post('/like/post')
 async def like_post(request):
     userid = request.ctx.session.get('user_id')
@@ -32,6 +66,22 @@ async def like_post(request):
     if not postid: return text("Bad request", status=400)
     
     return json({'status':'OK', 'liked':Database.likePost(userid, postid)}, status=200)
+
+@app.post('/post/create')
+async def create_post(request):
+    userid = request.ctx.session.get('user_id')
+    if not userid: return text("Unauthorized", status=401)
+    data = request.json
+    if not data: return text("Bad request", status=400)
+    Database.createPost(userid, data)
+
+@app.get('/university/<universityname:str>')
+async def university(request, universityname):
+    university = Database.getUniversityByName(universityname)
+    template = env.get_template('university.html')
+    data = {}
+    data['university'] = university
+    return response.html(template.render(data=data))
 
 @app.get('/posts')
 async def get_posts(request):
@@ -49,28 +99,17 @@ async def about(request):
 @app.route('/servevideo/<filename:str>')
 async def serve_video(request, filename):
     video_path = './static/video/' + filename
-    # Открываем файл видео
     with open(video_path, 'rb') as video_file:
         video_data = video_file.read()
-
     headers = {'Accept-Ranges': 'bytes'}
     content_range = request.headers.get('Range')
-
     if content_range:
-        # Разбираем значение Range заголовка
         start, end = content_range.replace('bytes=', '').split('-')
         start = int(start)
         end = int(end) if end else len(video_data) - 1
-
-        # Определяем длину контента и формируем заголовок Content-Range
-        content_length = end - start + 1
         headers['Content-Range'] = f'bytes {start}-{end}/{len(video_data)}'
-        
-        # Вырезаем запрошенный диапазон данных из файла
         video_chunk = video_data[start:end+1]
         return response.raw(video_chunk, headers=headers, status=206)
-
-    # Если Range не указан, отправляем весь файл
     return await response.file_stream(video_path, headers=headers)
 
 @app.route('/images/<image:str>')
