@@ -5,7 +5,6 @@ from threading import Thread
 from database import *
 from sanic_session import Session
 from datetime import datetime
-import telebot
 
 app = Sanic("HackathonCampus") #Инициализировали Sanic
 
