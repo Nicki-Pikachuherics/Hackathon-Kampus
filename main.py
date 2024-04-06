@@ -5,7 +5,6 @@ from threading import Thread
 from database import *
 from sanic_session import Session
 from datetime import datetime
-import telebot
 
 app = Sanic("HackathonCampus") #Инициализировали Sanic
 
@@ -18,11 +17,15 @@ app.static("/static/", "./static/") # Маршрут на папку со ста
 
 Session(app)
 
-@app.route('/') # Маршрут на первоначальную страницу
+@app.get('/') # Маршрут на первоначальную страницу
 async def index(request):
+    user = request.ctx.session.get('chat_id')
+    print(user)
     data = {}
     template = env.get_template('index.html') #Получили шаблон
     return response.html(template.render(data=data))
+
+@app.get
 
 @app.route('/images/<image>')
 async def serve_image(request, image):
