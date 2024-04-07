@@ -392,4 +392,4 @@ class Database:
                 'options': row[2]
             }
 
-#print(Database.regUserByAdmin(name='John', surname='Doe', lastname='Smith',phone_number='+71111111111', email = 'example@admin.com', university_id=1, gender_id=1, profession_id=5, role_id=4))
+#print(Database.regUserByAdmin(name='John', surname='Doe', lastname='Smith',phone_number='+77777777555', email = 'example5@admin.com', university_id=2, gender_id=1, profession_id=5, role_id=4))
