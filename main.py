@@ -112,7 +112,6 @@ async def like_post(request):
     postid = request.json.get('postid')
     if not userid: return text("Unauthorized", status=401)
     if not postid: return text("Bad request", status=400)
-    
     return json({'status':'OK', 'liked':Database.likePost(userid, postid)}, status=200)
 
 @app.post('/post/create')
@@ -122,7 +121,17 @@ async def create_post(request):
     data = request.json
     if not data: return text("Bad request", status=400)
     Database.createPost(userid, data)
-
+    
+@app.post('/university/info')
+async def update_university_info(request):
+    info = request.json.get('newInfo')
+    university_id = request.json.get('university_id')
+    Database.updateUniversityInfo(info, university_id)
+    return response.json({'status':'OK'}, status=200)
+@app.get('/logout')
+async def logout(request):
+    request.ctx.session.pop('user_id', None)
+    return redirect('/')
 @app.get('/university/<universityname:str>')
 async def university(request, universityname):
     universityname = urllib.parse.unquote(universityname)
@@ -130,9 +139,15 @@ async def university(request, universityname):
     template = env.get_template('university.html')
     data = {}
     data['university'] = university
+    data['user'] = Database.getUserById(request.ctx.session.get('user_id'))
     data['posts'] = Database.getPostsForUniversity(university['id'])
     return response.html(template.render(data=data))
 
+@app.post('/change_image')
+async def change_image(request):
+    #TODO
+    return json({'status':'OK'}, status=200)
+    
 @app.get('/posts')
 async def get_posts(request):
     user_id = request.ctx.session.get('user_id')

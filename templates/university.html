@@ -19,22 +19,27 @@
   <body>
     <!-- style -->
     <header class="header" style="border: 3px solid var(--main-color)">
-      <img src="" alt="">
+      <img src="/static/images/{{ data.university.options.hat }}" alt="Шапка {{ data.university.name }}">
       <div class="header__wrapper">
         <div class="header__logo">
           <div class="header__logo-img">
             <img
-              src="/static/images/logo_Kampus.png"
-              alt="Логотип Тюменского Кампуса"
+              src="/static/images/{{ data.university.options.image }}"
+              alt="Логотип {{ data.university.name }}"
             />
           </div>
+          
           <!-- Название -->
           <div class="header__logo-text">ТюмГУ</div>
         </div>
+        
         <div class="header__account">
-          <img src="/static/images/logo_Profile.png" alt="Иконка профиля" />
+          <a href="/profile"><img src="/static/images/logo_Profile.png" alt="Иконка профиля" /></a>
         </div>
+
+        
       </div>
+      
     </header>
     <main>
       <section class="events__info">
@@ -65,27 +70,16 @@
           <!-- тут -->
           <div class="info__wrapper" style="border: 3px solid var(--main-color)">
           <div class="info__header">Информация</div>
-          <div class="info__text" id="infoText">wfafwafafwaf<button onclick="ChangeInfoText()"></button><input type="text", placeholder="Текст описания" id="infoInput" style="display: none;"> <button onclick="SaveInfoText()">Сохранить</button></div>
+          <div class="info__text" id="infoText">{{ data.university.options.description }}</div>{% if data.user.role == 'Администратор' and data.user.university.id == data.university.id%}<button id="changeinfoBtn" onclick="changeInfoText()">Изменить</button><input type="text", placeholder="Текст описания" id="infoInput" style="display: none; height: 100%; width: 100%;"> <button id="saveinfoBtn" onclick="SaveInfoText({{data.university.id}})" style="display: none;">Сохранить</button>{% endif %}
           </div>
           <div class="people__wrapper" style="border: 3px solid var(--main-color)">
             <div class="people">
               <div class="people__image">
                 <img src="/static/images/logo_Profile.png" alt="">
               </div>
-              <!-- тут -->
               <div class="people__text">
                 <div class="people__name">Павел Максимович</div>
-                <div class="people__position">Админ</div>
-              </div>
-            </div>
-            <div class="people">
-              <div class="people__image">
-                <img src="/static/images/logo_Profile.png" alt="">
-              </div>
-              <!-- тут -->
-              <div class="people__text">
-                <div class="people__name">Павел Максимович</div>
-                <div class="people__position">Админ</div>
+                <div class="people__position">Администратор</div>
               </div>
             </div>
           </div>

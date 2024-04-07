@@ -89,7 +89,17 @@ class Database:
                     'gender': row[11],
                     'profession': row[12]
                 }
-        
+    
+    def updateUniversityInfo(info, id):
+        print(info, id)
+        with psycopg2.connect(Database.connectionstring) as conn:
+            cursor = conn.cursor()
+            cursor.execute("select options from universities where id = %s", (id,))
+            options = cursor.fetchone()[0]
+            options['description'] = info
+            cursor.execute("UPDATE universities SET options = %s WHERE id = %s", (json.dumps(options), id))
+            
+    
     def getPostComments(postid):
         with psycopg2.connect(Database.connectionstring) as conn:
             cursor = conn.cursor()
@@ -126,11 +136,14 @@ class Database:
             row = cursor.fetchone()
             if not row:
                 return None
-            return {
+            output = {
                     'id': row[0],
                     'name': row[1],
                     'options': row[2]
                 }
+            if output['options'] is None: output['options'] = {}
+            output['options']['admins'] = Database.GetUniversityAdmins(output['id'])
+            return output
     
     def CommentPost(postid, userid, text):
         with psycopg2.connect(Database.connectionstring) as conn:
@@ -385,15 +398,33 @@ class Database:
                 }) 
             return output
     @staticmethod
+    def GetUniversityAdmins(universityid: int):
+        with psycopg2.connect(Database.connectionstring) as conn:
+            cursor = conn.cursor()
+            cursor.execute('SELECT id, name, surname, lastname, profession_id FROM users WHERE university_id = %s AND role_id = 4', (universityid,))
+            rows = cursor.fetchall()
+            output = []
+            for row in rows:
+                output.append({
+                    'id': row[0],
+                    'name': row[1],
+                    'surname': row[2],
+                    'lastname': row[3],
+                    'profession_id': row[4]
+                })
+    
+    @staticmethod
     def getUniversityById(id: int):
         with psycopg2.connect(Database.connectionstring) as conn:
             cursor = conn.cursor()
             cursor.execute('SELECT * from universities WHERE id = %s', (id,))
             row = cursor.fetchone()
-            return {
+            output = {
                 'id': row[0],
                 'name': row[1],
                 'options': row[2]
             }
+            output['options']['admins'] = Database.GetUniversityAdmins(id)
+            return output
 
-#print(Database.regUserByAdmin(name='John', surname='Doe', lastname='Smith',phone_number='+77777777555', email = 'example5@admin.com', university_id=2, gender_id=1, profession_id=5, role_id=4))
+#print(Database.regUserByAdmin(name='John', surname='Doe', lastname='Smith',phone_number='+123123', email = 'example123123@admin.com', university_id=5, gender_id=1, profession_id=5, role_id=4))

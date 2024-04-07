@@ -52,10 +52,14 @@
           <a href="/profile"><img src="/static/images/logo_Profile.png" alt="Иконка профиля"/>
             <h5>{{data['user']['name']}} {{data['user']['surname']}} {{data['user']['lastname']}}</h5>
           </a>
+          <a href="/logout">
+            <h3>Выйти</h3>
+          </a>
           {% else %}
           <a href="/login">
             <h3>Войти в аккаунт</h3>
           </a>
+          
           {% endif %}
         </div>
       </div>
