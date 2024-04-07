@@ -15,6 +15,22 @@
   animation: up-down 1s forwards;
 }
 
+.header__account a {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  color: var(--color-for-menu-item);
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.header__account h5 {
+  margin: 0;
+  padding: 0;
+}
+
 /* menu */
 .menu {
   display: flex;
@@ -32,12 +48,12 @@
 }
 
 .menu__item a:hover,
-.news__all:hover {
+.news__all:hover, h5:hover {
   color: var(--hover-color-for-menu-item);
 }
 
 .menu__item a,
-.news__all {
+.news__all, h5 {
   position: relative;
   text-decoration: none;
   gap: 5px;
@@ -47,7 +63,7 @@
 }
 
 .menu__item a::after,
-.news__all::after {
+.news__all::after, h5::after {
   content: "";
   position: absolute;
   left: 50%;
@@ -59,7 +75,7 @@
 }
 
 .menu__item a:hover::after,
-.news__all:hover::after {
+.news__all:hover::after, h5:hover::after {
   width: 100%;
   left: 0;
 }
@@ -170,8 +186,10 @@ a:visited {
 
 /* university__wrapper */
 .video__wrapper {
-  height: 915px;
+  height: 100%;
   background: rgb(77, 77, 77);
+  display: flex;
+  justify-content: center;
 }
 
 /* footer */
