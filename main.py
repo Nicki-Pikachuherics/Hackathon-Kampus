@@ -20,8 +20,55 @@ Session(app)
 @app.get('/') # Маршрут на первоначальную страницу
 async def index(request):
     user = request.ctx.session.get('user_id')
+    user = Database.getUserById(user)
     data = {}
+    if user:
+        data['user'] = user
     template = env.get_template('index.html') #Получили шаблон
+    return response.html(template.render(data=data))
+@app.get('/login')
+async def login(request):
+    data = {}
+    template = env.get_template('login.html') #Получили шаблон
+    return response.html(template.render(data=data))
+
+@app.post('/login')
+async def login_input(request):
+    username = request.form.get('username')
+    password = request.form.get('password')
+    logged_in = Database.loginUser(username, password)
+    if logged_in:
+        request.ctx.session['user_id'] = logged_in['id']
+        return redirect('/')
+    else:
+        return redirect('/login')
+
+@app.get('/profile')
+async def profile(request):
+    user = request.ctx.session.get('user_id')
+    user = Database.getUserById(user)
+    data = {}
+    if user:
+        data['user'] = user
+    else: return redirect('/')
+    template = env.get_template('profile.html') #Получили шаблон
+    return response.html(template.render(data=data))
+
+@app.post('/update_user_info')
+async def update_user_info(request):
+    user = request.ctx.session.get('user_id')
+    login = request.form.get('login')
+    password = request.form.get('password')
+    Database.updateUserInfo(user, login, password)
+    return redirect('/profile')
+
+@app.get('/event/<eventid:int>') # Маршрут на страницу события
+async def event(request, eventid):
+    user = request.ctx.session.get('user_id')
+    event = Database.getEventById(eventid)
+    data = {}
+    data['event'] = event
+    template = env.get_template('event.html') #Получили шаблон
     return response.html(template.render(data=data))
 
 @app.get('/post/comments')

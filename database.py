@@ -1,6 +1,6 @@
 import json
 import psycopg2
-from datetime import datetime, timedelta
+from datetime import date,datetime, timedelta
 import hashlib
 from keys import DB_HOST,DB_NAME,DB_USER,DB_PASSWORD
 
@@ -22,7 +22,7 @@ class Database:
     def getAllUsers():
         with psycopg2.connect(Database.connectionstring) as conn:
             cursor = conn.cursor()
-            cursor.execute('SELECT users.id, roles.role, users.login, users.phone_number, users.email, users.university_id, users.options, users.name, users.surname, users.lastname, users.birthsday, users.gender, professions.name from users join genders on users.gender = genders.id join roles on users.role = roles.id join profession on users.profession_id = professions.id order by id')
+            cursor.execute('SELECT users.id, roles.name, users.login, users.phone_number, users.email, users.university_id, users.options, users.name, users.surname, users.lastname, users.birthday, users.gender_id, professions.name from users join genders on users.gender_id = genders.id join roles on users.role_id = roles.id join professions on users.profession_id_id = professions.id order by id')
             rows = cursor.fetchall()
             output = []
             for row in rows:
@@ -37,7 +37,7 @@ class Database:
                     'name': row[7],
                     'surname': row[8],
                     'lastname': row[9],
-                    'birthsday': row[10], #TODO: Потестить
+                    'birthday': row[10], #TODO: Потестить
                     'gender': row[11],
                     'profession': row[12]
                 })
@@ -47,7 +47,7 @@ class Database:
     def getUserById(id):
         with psycopg2.connect(Database.connectionstring) as conn:
             cursor = conn.cursor()
-            cursor.execute('SELECT users.id, roles.role, users.login, users.phone_number, users.email, users.university_id, users.options, users.name, users.surname, users.lastname, users.birthsday, users.gender, professions.name from users join genders on users.gender = genders.id join roles on users.role = roles.id join profession on users.profession = profession.id WHERE users.id = %s', (id,))
+            cursor.execute('SELECT users.id, roles.name, users.login, users.phone_number, users.email, users.university_id, users.options, users.name, users.surname, users.lastname, users.birthday, users.gender_id, professions.name from users join genders on users.gender_id = genders.id join roles on users.role_id = roles.id join professions on users.profession_id = professions.id WHERE users.id = %s', (id,))
             row = cursor.fetchone()
             if not row:
                 return None
@@ -62,7 +62,7 @@ class Database:
                     'name': row[7],
                     'surname': row[8],
                     'lastname': row[9],
-                    'birthsday': row[10],
+                    'birthday': row[10],
                     'gender': row[11],
                     'profession': row[12]
                 }
@@ -70,7 +70,7 @@ class Database:
     def getUserByLogin(login):
         with psycopg2.connect(Database.connectionstring) as conn:
             cursor = conn.cursor()
-            cursor.execute('SELECT users.id, roles.role, users.login, users.phone_number, users.email, users.university_id, users.options, users.name, users.surname, users.lastname, users.birthsday, users.gender, professions.name from users join genders on users.gender = genders.id join roles on users.role = roles.id join profession on users.profession = profession.id WHERE users.login = %s', (login,))
+            cursor.execute('SELECT users.id, roles.name, users.login, users.phone_number, users.email, users.university_id, users.options, users.name, users.surname, users.lastname, users.birthday, users.gender_id, professions.name from users join genders on users.gender_id = genders.id join roles on users.role_id = roles.id join professions on users.profession_id = professions.id WHERE users.login = %s', (login,))
             row = cursor.fetchone()
             if not row:
                 return None
@@ -85,7 +85,7 @@ class Database:
                     'name': row[7],
                     'surname': row[8],
                     'lastname': row[9],
-                    'birthsday': row[10],
+                    'birthday': row[10],
                     'gender': row[11],
                     'profession': row[12]
                 }
@@ -140,7 +140,7 @@ class Database:
     def getUserByPhone(phone):
         with psycopg2.connect(Database.connectionstring) as conn:
             cursor = conn.cursor()
-            cursor.execute('SELECT users.id, roles.role, users.login, users.phone_number, users.email, users.university_id, users.options, users.name, users.surname, users.lastname, users.birthsday, users.gender, professions.name from users join genders on users.gender = genders.id join roles on users.role = roles.id join profession on users.profession = profession.id WHERE users.phone_number = %s', (phone,))
+            cursor.execute('SELECT users.id, roles.name, users.login, users.phone_number, users.email, users.university_id, users.options, users.name, users.surname, users.lastname, users.birthday, users.gender_id, professions.name from users join genders on users.gender_id = genders.id join roles on users.role_id = roles.id join professions on users.profession_id = professions.id WHERE users.phone_number = %s', (phone,))
             row = cursor.fetchone()
             if not row:
                 return None
@@ -155,7 +155,7 @@ class Database:
                     'name': row[7],
                     'surname': row[8],
                     'lastname': row[9],
-                    'birthsday': row[10],
+                    'birthday': row[10],
                     'gender': row[11],
                     'profession': row[12]
                 }
@@ -163,7 +163,7 @@ class Database:
     def getUserByEmail(email):
         with psycopg2.connect(Database.connectionstring) as conn:
             cursor = conn.cursor()
-            cursor.execute('SELECT users.id, roles.role, users.login, users.phone_number, users.email, users.university_id, users.options, users.name, users.surname, users.lastname, users.birthsday, users.gender, professions.name from users join genders on users.gender = genders.id join roles on users.role = roles.id join profession on users.profession = profession.id WHERE users.email = %s', (email,))
+            cursor.execute('SELECT users.id, roles.name, users.login, users.phone_number, users.email, users.university_id, users.options, users.name, users.surname, users.lastname, users.birthday, users.gender_id, professions.name from users join genders on users.gender_id = genders.id join roles on users.role_id = roles.id join professions on users.profession_id = professions.id WHERE users.email = %s', (email,))
             row = cursor.fetchone()
             if not row:
                 return None
@@ -178,24 +178,31 @@ class Database:
                     'name': row[7],
                     'surname': row[8],
                     'lastname': row[9],
-                    'birthsday': row[10],
+                    'birthday': row[10],
                     'gender': row[11],
                     'profession': row[12]
                 }
     
-    def regUserByAdmin(phone_number, email, profession='Студент') -> str: 
+    def regUserByAdmin(name, surname, lastname, phone_number, email, university_id, gender_id, profession_id=1, role_id=1) -> str: 
         with psycopg2.connect(Database.connectionstring) as conn:
             cursor = conn.cursor()
             password = generateRandomString(8)
-            cursor.execute('INSERT INTO users (phone_number, email, profession, password_hash) VALUES (%s, %s, %s, %s)', (phone_number, email, profession, hashPassword(password),))
+            cursor.execute('INSERT INTO users (phone_number, email, profession_id, password_hash, university_id, role_id, gender_id, name, surname, lastname) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)', (phone_number, email, profession_id, hashPassword(password), university_id, role_id, gender_id, name, surname, lastname))
         return password
 
     @staticmethod
     def loginUser(login,password):
         with psycopg2.connect(Database.connectionstring) as conn:
             cursor = conn.cursor()
-            cursor.execute('SELECT EXISTS(SELECT 1 FROM users WHERE (login = %s OR phone_number = %s OR email = %s) AND password_hash = %s LIMIT 1', (login, login, login, hashPassword(password),))
-            return cursor.fetchone()[0]
+            cursor.execute('SELECT id FROM users WHERE (login = %s OR phone_number = %s OR email = %s) AND password_hash = %s LIMIT 1', (login, login, login, hashPassword(password),))
+            info = cursor.fetchone()
+            if info:
+                return {
+                        'id': info[0]
+                    }
+            else:
+                return None
+            
     
     @staticmethod
     def likePost(userid: int, postid: int):
@@ -304,6 +311,12 @@ class Database:
             cursor = conn.cursor()
             cursor.execute('UPDATE users SET options = %s WHERE id = %s', (json.dumps(options), userid,)) #FIXME: Возможно не надо dumps для json
             conn.commit()
+    @staticmethod
+    def updateUserInfo(userid: int, login: str, password: str):
+        with psycopg2.connect(Database.connectionstring) as conn:
+            cursor = conn.cursor()
+            cursor.execute('UPDATE users SET login = %s, password_hash = %s WHERE id = %s', (login, hashPassword(password), userid,))
+            conn.commit()
     
     @staticmethod
     def getAllEvents():
@@ -378,3 +391,5 @@ class Database:
                 'name': row[1],
                 'options': row[2]
             }
+
+#print(Database.regUserByAdmin(name='John', surname='Doe', lastname='Smith',phone_number='+71111111111', email = 'example@admin.com', university_id=1, gender_id=1, profession_id=5, role_id=4))

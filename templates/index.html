@@ -19,17 +19,15 @@
         <nav>
           <ul class="menu">
             <li class="menu__item">
-              <a href="#"
-                ><img src="static/images/logo_TSU.png" alt="logo_TSU" />ТюмГУ</a
+              <a href="/university/ТюмГУ"><img src="static/images/logo_TSU.png" alt="logo_TSU" />ТюмГУ</a
               >
             </li>
             <li class="menu__item">
-              <a href="#"
-                ><img src="static/images/logo_TIU.png" alt="logo_TIU" />ТИУ</a
+              <a href="/university/ТИУ"><img src="static/images/logo_TIU.png" alt="logo_TIU" />ТИУ</a
               >
             </li>
             <li class="menu__item">
-              <a href="#"
+              <a href="/university/ТюмГМУ"
                 ><img
                   src="static/images/logo_TumGUM.png"
                   alt="logo_TumGUM"
@@ -37,19 +35,27 @@
               >
             </li>
             <li class="menu__item">
-              <a href="#"
+              <a href="/university/ГАУСЗ"
                 ><img src="static/images/logo_GauNw.png" alt="logo_GauNw" />ГАУ СЗ</a
               >
             </li>
             <li class="menu__item">
-              <a href="#"
+              <a href="/university/ТГИК"
                 ><img src="static/images/logo_Tgic.png" alt="logo_Tgic" />ТГИК</a
               >
             </li>
           </ul>
         </nav>
         <div class="header__account">
-          <img src="static/images/logo_Profile.png" alt="Иконка профиля" />
+          {% if data['user'] %}
+          <a href="/profile"><img src="static/images/logo_Profile.png" alt="Иконка профиля"/>
+            <h5>{{data['user']['name']}} {{data['user']['surname']}} {{data['user']['lastname']}}</h5>
+          </a>
+          {% else %}
+          <a href="/login">
+            <h3>Войти в аккаунт</h3>
+          </a>
+          {% endif %}
         </div>
       </div>
     </header>
