@@ -19,38 +19,50 @@
         <nav>
           <ul class="menu">
             <li class="menu__item">
-              <a href="/university/ТюмГУ"><img src="/static/images/logo_TSU.png" alt="logo_TSU" />ТюмГУ</a
+              <a href="/university/ТюмГУ"
+                ><img
+                  src="/static/images/logo_TSU.png"
+                  alt="logo_TSU"
+                />ТюмГУ</a
               >
             </li>
             <li class="menu__item">
-              <a href="/university/ТИУ"><img src="/static/images/logo_TIU.png" alt="logo_TIU" />ТИУ</a
+              <a href="/university/ТИУ"
+                ><img src="/static/images/logo_TIU.png" alt="logo_TIU" />ТИУ</a
               >
             </li>
             <li class="menu__item">
               <a href="/university/ТюмГМУ"
                 ><img
-                  src="/static/images/logo_TumGUM.png"
-                  alt="logo_TumGUM"
+                  src="/static/images/logo_TumGMU.png"
+                  alt="logo_TumGMU"
                 />ТюмГМУ</a
               >
-              <!-- HUJUOWUOJFJAuojOUwfuo ГМУ -->
             </li>
             <li class="menu__item">
               <a href="/university/ГАУСЗ"
-                ><img src="/static/images/logo_GauNw.png" alt="logo_GauNw" />ГАУ СЗ</a
+                ><img src="/static/images/logo_GauNw.png" alt="logo_GauNw" />ГАУ
+                СЗ</a
               >
             </li>
             <li class="menu__item">
               <a href="/university/ТГИК"
-                ><img src="/static/images/logo_Tgic.png" alt="logo_Tgic" />ТГИК</a
+                ><img
+                  src="/static/images/logo_Tgic.png"
+                  alt="logo_Tgic"
+                />ТГИК</a
               >
             </li>
           </ul>
         </nav>
         <div class="header__account">
           {% if data['user'] %}
-          <a href="/profile"><img src="/static/images/logo_Profile.png" alt="Иконка профиля"/>
-            <h5>{{data['user']['name']}} {{data['user']['surname']}} {{data['user']['lastname']}}</h5>
+          <a href="/profile"
+            ><img src="/static/images/logo_Profile.png" alt="Иконка профиля" />
+            <h5>
+              {{data['user']['name']}} {{data['user']['surname']}}
+              {{data['user']['lastname']}}
+            </h5>
           </a>
           {% else %}
           <a href="/login">
@@ -122,7 +134,11 @@
         </div>
       </section>
       <section>
-        <div class="video__wrapper"></div>
+        <div class="video__wrapper">
+          <video width="1240px" height="900px" controls>
+            <source src="/static/video/campus_in_tyumen.mp4" type="video/mp4" />
+          </video>
+        </div>
       </section>
     </main>
     <footer>
