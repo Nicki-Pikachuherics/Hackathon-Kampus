@@ -1,0 +1,70 @@
+:root {
+  /* colors */
+  --black: #000;
+  --white: #fff;
+  --color-for-menu-item: var(--black);
+  --header-bg-for-index: #c2e85c;
+  --bg-for-projects: #4d54fb;
+  --text-black: var(--black);
+  --text-white: var(--white);
+  --text-for-project: var(--header-bg-for-index);
+  --hover-color-for-menu-item: #5e5c5c;
+
+  /* width */
+  --width-1100: 1100px;
+  --width-1400: 1400px;
+
+  /* borders */
+  --border-20: 20px;
+  --border-5: 5px;
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap");
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  margin: 0;
+  width: 100%;
+}
+
+a {
+  text-decoration: none;
+}
+
+/* animations */
+@keyframes up-down {
+  0% {
+    transform: translateY(-150%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes smoothly {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes changeNumber {
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(1.2);
+  }
+}
+
+.animateChangeNumber {
+  animation: changeNumber 0.5s ease;
+}
