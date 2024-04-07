@@ -9,10 +9,16 @@
     <link rel="stylesheet" href="/static/css/university.css" />
     <script src="/static/js/university.js" defer></script>
     <script src="/static/js/slider.js" defer></script>
+    <style>
+      :root {
+        --main-color: {{ data.university.options.mainColor }};
+        --background-color: {{ data.university.options.gradient }};
+      }
+    </style>
   </head>
   <body>
     <!-- style -->
-    <header class="header" style="border: 3px solid rgb(10, 174, 239)">
+    <header class="header" style="border: 3px solid var(--main-color)">
       <img src="" alt="">
       <div class="header__wrapper">
         <div class="header__logo">
@@ -32,8 +38,7 @@
     </header>
     <main>
       <section class="events__info">
-        <div class="enets__wrapper" style="border: 3px solid rgb(10, 174,
-        239)">
+        <div class="enets__wrapper" style="border: 3px solid var(--main-color)">
         <div class="event__header">Мероприятия</div>
         <!-- Пробую свои силы -->
           <!-- <div class="event__slider">
@@ -58,11 +63,11 @@
         </div>
         <div class="info_people_wrapper">
           <!-- тут -->
-          <div class="info__wrapper" style="border: 3px solid rgb(10, 174, 239);">
+          <div class="info__wrapper" style="border: 3px solid var(--main-color)">
           <div class="info__header">Информация</div>
-          <div class="info__text">wfafwafafwaf</div>
+          <div class="info__text" id="infoText">wfafwafafwaf<button onclick="ChangeInfoText()"></button><input type="text", placeholder="Текст описания" id="infoInput" style="display: none;"> <button onclick="SaveInfoText()">Сохранить</button></div>
           </div>
-          <div class="people__wrapper" style="border: 3px solid rgb(10, 174, 239);">
+          <div class="people__wrapper" style="border: 3px solid var(--main-color)">
             <div class="people">
               <div class="people__image">
                 <img src="/static/images/logo_Profile.png" alt="">
@@ -86,27 +91,19 @@
           </div>
         </div>
       </section>
-      <section class="post" style="border: 4px solid rgb(0, 184, 254)">
+      <section class="post" style="border: 4px solid var(--main-color)">
         <h2>Новости</h2>
+        {% for post in data.posts %}
         <!-- style тут для каждого разного -->
-        <div
-          class="post__wrapper"
-          style="
-            background: linear-gradient(
-              180deg,
-              rgba(10, 174, 239, 0.2) 0%,
-              rgba(132, 214, 247, 0.2) 45.482%,
-              rgba(255, 255, 255, 0.2) 100%
-            );
-          "
-        >
+        <div class="post__wrapper"
+          style="background: linear-gradient(var(--background-color));">
           <div class="post__header">
             <div class="post__logo">
               <!-- Либо здесь еще логотип колледжа -->
               <img src="/static/images/logo_Kampus.png" alt="" />
             </div>
             <!-- Заголовок -->
-            <div class="post__head">Заголовок новости</div>
+            <div class="post__head">post['data']['title']</div>
             <div class="post__burger-menu">
               <img src="/static/images/burger-menu.png" alt="" />
             </div>
@@ -114,74 +111,64 @@
           <div class="post__title">
             <!-- Текст -->
             <div class="post__text">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Illo
-              totam quidem, asperiores saepe modi repellendus natus atque
-              maiores deserunt laboriosam harum deleniti. Ad distinctio culpa
-              sequi laboriosam magni eos sit!
-            </div>
-            <div class="post__show-more">
-              <a href="#">показать еще</a>
+              post['data']['text']
             </div>
           </div>
-          <div class="post__image">
-            <!-- Загрузка изображения -->
-            <img src="" alt="" />
+          {% if post['data']['images'] %}
+            {% for image in post['data']['images'] %}
+            <div class="post__image">
+              <img src="{{image}}" alt="Картинка в посте" />
+            </div>
+            {% endfor %}
+          {% endif %}
+          {% if post['data']['video'] %}
+          <div class="post__video">
+            <video src="{{post['data']['video']}}" controls></video>
           </div>
+          {% endif %}
+          {% if post['data']['event'] %}
+          <div class="post__event">
+            <div class="post__event-title">{{post['data']['event']['title']}}</div>
+            <div class="post__event-text">{{post['data']['event']['text']}}</div>
+          </div>
+          {% endif %}
           <div class="post__buttons">
             <div class="post__button">
-              <button onclick="increaseCounter()">
+              <button onclick="LikePost({{post['id']}})">
                 <img src="/static/images/like_icon.png" alt="" />
               </button>
               <!-- Счетчик -->
-              <div class="post__count" id="counter">0</div>
-            </div>
-            <div class="post__button">
-              <button>
-                <img src="/static/images/comment_icon.png" alt="" />
-              </button>
-            </div>
-            <div class="post__button">
-              <button><img src="/static/images/share_icon.png" alt="" /></button>
+              <div class="post__count" id="LikesCounter">{{post['likes']}}</div>
             </div>
           </div>
+          {% if post['data']['comments'] %}
           <div class="post__wrapper-comments">
             <!-- Загрузка комментариев -->
             <div class="post__comments">
+              {% for comment in post['data']['comments'] %}
               <div class="post__comment">
                 <img
-                  src="/static/images/logo_Profile.png"
+                  src="/static/images/{{comment['author']['options']['avatar']}}"
                   alt="Иконка профиля"
                 />
                 <div class="post__comment-text">
-                  <div class="post__comment-head">Павел Максимович</div>
+                  <a href="/profile/comment['author']['options']['login']"><div class="post__comment-head">{{comment['author']['name']}} comment['author']['surname']</div></a>
                   <div class="post__comment-footer">
-                    ТИУ говно я туду никогда не поступлю.. Фууууууууу...
+                    {{comment['text']}}
                   </div>
                 </div>
               </div>
-              <div class="post__comment">
-                <img
-                  src="/static/images/logo_Profile.png"
-                  alt="Иконка профиля"
-                />
-                <div class="post__comment-text">
-                  <div class="post__comment-head">Павел Максимович</div>
-                  <div class="post__comment-head">
-                    ТИУ говно я туду никогда не поступлю.. Фууууууууу...
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="post__comments-all">
-              <a href="#">все комментарии</a>
+              {% endfor %}
             </div>
           </div>
+          {% endif %}
+          {% if data['user'] %}
           <div class="post__add-comment">
             <!-- Загрузка формы добавления комментария -->
             <div class="post__form">
-              <form action="">
+              <form>
                 <img
-                  src="/static/images/logo_Profile.png"
+                  src="/static/images/{{data['user']['avatar']}}"
                   alt="Иконка профиля"
                 />
                 <input
@@ -189,6 +176,7 @@
                   type="text"
                   placeholder="Ваш комментарий"
                 />
+                <input type="text" name="postid" value="{{post['id']}}", style="display: none">
                 <input
                   type="image"
                   src="/static/images/BtnSend.png"
@@ -197,116 +185,9 @@
               </form>
             </div>
           </div>
+          {% endif %}
         </div>
-        <div
-          class="post__wrapper"
-          style="
-            background: linear-gradient(
-              180deg,
-              rgba(10, 174, 239, 0.2) 0%,
-              rgba(132, 214, 247, 0.2) 45.482%,
-              rgba(255, 255, 255, 0.2) 100%
-            );
-          "
-        >
-          <div class="post__header">
-            <div class="post__logo">
-              <!-- Либо здесь еще логотип колледжа -->
-              <img src="/static/images/logo_Kampus.png" alt="" />
-            </div>
-            <!-- Заголовок -->
-            <div class="post__head">Заголовок новости</div>
-            <div class="post__burger-menu">
-              <img src="/static/images/burger-menu.png" alt="" />
-            </div>
-          </div>
-          <div class="post__title">
-            <!-- Текст -->
-            <div class="post__text">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Illo
-              totam quidem, asperiores saepe modi repellendus natus atque
-              maiores deserunt laboriosam harum deleniti. Ad distinctio culpa
-              sequi laboriosam magni eos sit!
-            </div>
-            <div class="post__show-more">
-              <a href="#">показать еще</a>
-            </div>
-          </div>
-          <div class="post__image">
-            <!-- Загрузка изображения -->
-            <img src="" alt="" />
-          </div>
-          <div class="post__buttons">
-            <div class="post__button">
-              <button onclick="increaseCounter()">
-                <img src="/static/images/like_icon.png" alt="" />
-              </button>
-              <!-- Счетчик -->
-              <div class="post__count" id="counter">0</div>
-            </div>
-            <div class="post__button">
-              <button>
-                <img src="/static/images/comment_icon.png" alt="" />
-              </button>
-            </div>
-            <div class="post__button">
-              <button><img src="/static/images/share_icon.png" alt="" /></button>
-            </div>
-          </div>
-          <div class="post__wrapper-comments">
-            <!-- Загрузка комментариев -->
-            <div class="post__comments">
-              <div class="post__comment">
-                <img
-                  src="/static/images/logo_Profile.png"
-                  alt="Иконка профиля"
-                />
-                <div class="post__comment-text">
-                  <div class="post__comment-head">Павел Максимович</div>
-                  <div class="post__comment-footer">
-                    ТИУ говно я туду никогда не поступлю.. Фууууууууу...
-                  </div>
-                </div>
-              </div>
-              <div class="post__comment">
-                <img
-                  src="/static/images/logo_Profile.png"
-                  alt="Иконка профиля"
-                />
-                <div class="post__comment-text">
-                  <div class="post__comment-head">Павел Максимович</div>
-                  <div class="post__comment-head">
-                    ТИУ говно я туду никогда не поступлю.. Фууууууууу...
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="post__comments-all">
-              <a href="#">все комментарии</a>
-            </div>
-          </div>
-          <div class="post__add-comment">
-            <!-- Загрузка формы добавления комментария -->
-            <div class="post__form">
-              <form action="">
-                <img
-                  src="/static/images/logo_Profile.png"
-                  alt="Иконка профиля"
-                />
-                <input
-                  class="post__input"
-                  type="text"
-                  placeholder="Ваш комментарий"
-                />
-                <input
-                  type="image"
-                  src="/static/images/BtnSend.png"
-                  alt="Отправить"
-                />
-              </form>
-            </div>
-          </div>
-        </div>
+        {% endfor %}
       </section>
     </main>
   </body>

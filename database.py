@@ -104,7 +104,8 @@ class Database:
                     'surname': row[3],
                     'lastname': row[4],
                     'user_id': row[5],
-                    'text': row[6]
+                    'text': row[6],
+                    'author': Database.getUserById(row[5])
                 })
             return output
     
@@ -266,11 +267,14 @@ class Database:
             rows = cursor.fetchall()
             posts = [{
                 'id': row[0],
-                'data': row[1],
+                'data': row[1] if row[1] else {},
                 'university_id': row[2],
                 'creation_time': row[3]
             } for row in rows]
-            for post in posts: post['likes'] = Database.getPostLikes(post['id'])
+            
+            for post in posts: 
+                post['likes'] = Database.getPostLikes(post['id'])
+                post['data']['comments'] = Database.getPostComments(post['id'])
             return posts
     
     @staticmethod
@@ -392,4 +396,4 @@ class Database:
                 'options': row[2]
             }
 
-#print(Database.regUserByAdmin(name='John', surname='Doe', lastname='Smith',phone_number='+71111111111', email = 'example@admin.com', university_id=1, gender_id=1, profession_id=5, role_id=4))
+#print(Database.regUserByAdmin(name='John', surname='Doe', lastname='Smith',phone_number='+77777777555', email = 'example5@admin.com', university_id=2, gender_id=1, profession_id=5, role_id=4))
