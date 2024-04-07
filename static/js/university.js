@@ -24,5 +24,15 @@ ChangeInfoText = () => {
   const infoText = document.getElementById("info-text");
   infoText.style.display = "none";
   const infoInput = document.getElementById("infoInput");
+  infoInput.value = infoText.innerText;
   infoInput.style.display = "block";
+}
+
+SaveInfoText = () => {
+  const infoInput = document.getElementById("infoInput");
+  const infoText = document.getElementById("info-text");
+  
+  infoText.innerText = infoInput.value;
+  infoText.style.display = "block";
+  infoInput.style.display = "none";
 }
