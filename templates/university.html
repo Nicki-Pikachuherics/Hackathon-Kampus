@@ -19,7 +19,7 @@
   <body>
     <!-- style -->
     <header class="header" style="border: 3px solid var(--main-color)">
-      <img src="" alt="">
+      <img src="" alt="" />
       <div class="header__wrapper">
         <div class="header__logo">
           <div class="header__logo-img">
@@ -39,38 +39,34 @@
     <main>
       <section class="events__info">
         <div class="enets__wrapper" style="border: 3px solid var(--main-color)">
-        <div class="event__header">Мероприятия</div>
-        <!-- Пробую свои силы -->
-          <!-- <div class="event__slider">
-          <div class="slider-container">
-            <div class="slide">
-              <img src="static/images/logo_Kampus.png" alt="" />
-            </div>
-            <div class="slide">
-              <img src="static/images/logo_Kampus.png" alt="" />
-            </div>
-            <div class="slide">
-              <img src="static/images/logo_Kampus.png" alt="" />
-            </div>
-          </div>
-          <button class="prev-slide">
-            <img src="static/images/left_arrow.png" alt="" />
-          </button>
-          <button class="next-slide">
-            <img src="static/images/right_arrow.png" alt="" />
-          </button>
-          </div> -->
+          <div class="event__header">Мероприятия</div>
         </div>
         <div class="info_people_wrapper">
           <!-- тут -->
-          <div class="info__wrapper" style="border: 3px solid var(--main-color)">
-          <div class="info__header">Информация</div>
-          <div class="info__text" id="infoText">wfafwafafwaf<button onclick="ChangeInfoText()"></button><input type="text", placeholder="Текст описания" id="infoInput" style="display: none;"> <button onclick="SaveInfoText()">Сохранить</button></div>
+          <div
+            class="info__wrapper"
+            style="border: 3px solid var(--main-color)"
+          >
+            <div class="info__header">Информация</div>
+            <div class="info__text" id="infoText">
+              wfafwafafwaf<button onclick="ChangeInfoText()"></button
+              ><input
+                type="text"
+                ,
+                placeholder="Текст описания"
+                id="infoInput"
+                style="display: none"
+              />
+              <button onclick="SaveInfoText()">Сохранить</button>
+            </div>
           </div>
-          <div class="people__wrapper" style="border: 3px solid var(--main-color)">
+          <div
+            class="people__wrapper"
+            style="border: 3px solid var(--main-color)"
+          >
             <div class="people">
               <div class="people__image">
-                <img src="/static/images/logo_Profile.png" alt="">
+                <img src="/static/images/logo_Profile.png" alt="" />
               </div>
               <!-- тут -->
               <div class="people__text">
@@ -80,7 +76,7 @@
             </div>
             <div class="people">
               <div class="people__image">
-                <img src="/static/images/logo_Profile.png" alt="">
+                <img src="/static/images/logo_Profile.png" alt="" />
               </div>
               <!-- тут -->
               <div class="people__text">
@@ -95,8 +91,10 @@
         <h2>Новости</h2>
         {% for post in data.posts %}
         <!-- style тут для каждого разного -->
-        <div class="post__wrapper"
-          style="background: linear-gradient(var(--background-color));">
+        <div
+          class="post__wrapper"
+          style="background: linear-gradient(var(--background-color))"
+        >
           <div class="post__header">
             <div class="post__logo">
               <!-- Либо здесь еще логотип колледжа -->
@@ -110,26 +108,25 @@
           </div>
           <div class="post__title">
             <!-- Текст -->
-            <div class="post__text">
-              post['data']['text']
-            </div>
+            <div class="post__text">post['data']['text']</div>
           </div>
-          {% if post['data']['images'] %}
-            {% for image in post['data']['images'] %}
-            <div class="post__image">
-              <img src="{{image}}" alt="Картинка в посте" />
-            </div>
-            {% endfor %}
-          {% endif %}
-          {% if post['data']['video'] %}
+          {% if post['data']['images'] %} {% for image in post['data']['images']
+          %}
+          <div class="post__image">
+            <img src="{{image}}" alt="Картинка в посте" />
+          </div>
+          {% endfor %} {% endif %} {% if post['data']['video'] %}
           <div class="post__video">
             <video src="{{post['data']['video']}}" controls></video>
           </div>
-          {% endif %}
-          {% if post['data']['event'] %}
+          {% endif %} {% if post['data']['event'] %}
           <div class="post__event">
-            <div class="post__event-title">{{post['data']['event']['title']}}</div>
-            <div class="post__event-text">{{post['data']['event']['text']}}</div>
+            <div class="post__event-title">
+              {{post['data']['event']['title']}}
+            </div>
+            <div class="post__event-text">
+              {{post['data']['event']['text']}}
+            </div>
           </div>
           {% endif %}
           <div class="post__buttons">
@@ -152,17 +149,18 @@
                   alt="Иконка профиля"
                 />
                 <div class="post__comment-text">
-                  <a href="/profile/comment['author']['options']['login']"><div class="post__comment-head">{{comment['author']['name']}} comment['author']['surname']</div></a>
-                  <div class="post__comment-footer">
-                    {{comment['text']}}
-                  </div>
+                  <a href="/profile/comment['author']['options']['login']"
+                    ><div class="post__comment-head">
+                      {{comment['author']['name']}} comment['author']['surname']
+                    </div></a
+                  >
+                  <div class="post__comment-footer">{{comment['text']}}</div>
                 </div>
               </div>
               {% endfor %}
             </div>
           </div>
-          {% endif %}
-          {% if data['user'] %}
+          {% endif %} {% if data['user'] %}
           <div class="post__add-comment">
             <!-- Загрузка формы добавления комментария -->
             <div class="post__form">
@@ -176,7 +174,13 @@
                   type="text"
                   placeholder="Ваш комментарий"
                 />
-                <input type="text" name="postid" value="{{post['id']}}", style="display: none">
+                <input
+                  type="text"
+                  name="postid"
+                  value="{{post['id']}}"
+                  ,
+                  style="display: none"
+                />
                 <input
                   type="image"
                   src="/static/images/BtnSend.png"

@@ -9,7 +9,7 @@ main {
   border-radius: 25px;
   margin: 93px 32px 65px;
   height: 582px;
-  max-width: 1842px;
+  max-width: var(--width-1842px);
 }
 
 .header__wrapper {

@@ -3,16 +3,22 @@
   --black: #000;
   --white: #fff;
   --color-for-menu-item: var(--black);
+  --color-for-menu-item: var(--white);
+  --bg-blue-and-color: #03a9f4;
+  --bg-color-ee: #eee;
+  --text-2121: #212121;
   --header-bg-for-index: #c2e85c;
   --bg-for-projects: #4d54fb;
   --text-black: var(--black);
   --text-white: var(--white);
   --text-for-project: var(--header-bg-for-index);
   --hover-color-for-menu-item: #5e5c5c;
+  --header-color-for-login: #f67519;
 
   /* width */
   --width-1100: 1100px;
   --width-1400: 1400px;
+  --width-1842px: 1842px;
 
   /* borders */
   --border-20: 20px;

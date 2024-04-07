@@ -3,7 +3,7 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background-color: #03a9f4;
+  background-color: var(--bg-blue-and-color);
 }
 
 .login__wrapper {
@@ -50,7 +50,7 @@ input[type="text" i],
 input[type="password" i] {
   width: 323px;
   height: 49px;
-  border: 2px solid #03a9f4;
+  border: 2px solid var(--bg-blue-and-color);
   border-radius: 10px;
   margin-bottom: 10px;
   padding: 10px;
@@ -60,7 +60,7 @@ input[type="submit" i] {
   border: none;
   background: none;
   border-radius: 10px;
-  background: #03a9f4;
+  background: var(--bg-blue-and-color);
   padding: 10px 10px;
   color: var(--text-white);
   width: 198px;
