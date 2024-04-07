@@ -5,6 +5,7 @@ from threading import Thread
 from database import *
 from sanic_session import Session
 from datetime import datetime
+import urllib
 
 app = Sanic("HackathonCampus") #Инициализировали Sanic
 
@@ -71,16 +72,16 @@ async def event(request, eventid):
     template = env.get_template('event.html') #Получили шаблон
     return response.html(template.render(data=data))
 
-@app.get('/post/comments')
-async def get_comments(request):
-    user = request.ctx.session.get('user_id')
-    postid = request.args.get('postid')
-    post = Database.getPostById(postid)
-    #TODO: Проверка на то, существует ли пост и пользователь имеет права просматривать его
-    commentscount = request.args.get('count')
-    if not commentscount: commentscount = 3
-    comments = Database.getPostComments(postid)
-    return json({'comments':comments[:int(commentscount)], 'maxcount':len(comments)}, status=200)
+@app.post('/post/comment')
+async def post_comment(request):
+    userid = request.ctx.session.get('user_id')
+    postid = request.form.get('postid')
+    text = request.form.get('text')
+    if not userid: return text("Unauthorized", status=401)
+    if not postid: return text("Bad request", status=400)
+    if not text: return text("Bad request", status=400)
+    Database.CommentPost(postid,userid, text)
+    return json({'status':'OK'}, status=200)
 
 @app.get('/post')
 async def get_post(request):
@@ -124,10 +125,12 @@ async def create_post(request):
 
 @app.get('/university/<universityname:str>')
 async def university(request, universityname):
+    universityname = urllib.parse.unquote(universityname)
     university = Database.getUniversityByName(universityname)
     template = env.get_template('university.html')
     data = {}
     data['university'] = university
+    data['posts'] = Database.getPostsForUniversity(university['id'])
     return response.html(template.render(data=data))
 
 @app.get('/posts')
@@ -164,4 +167,4 @@ async def serve_image(request, image):
     return response.file('./static/images/' + image)
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8000, debug=True)
+    app.run(host="0.0.0.0", port=8000)
