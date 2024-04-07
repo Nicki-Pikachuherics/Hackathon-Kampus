@@ -24,6 +24,12 @@ async def index(request):
     template = env.get_template('index.html') #Получили шаблон
     return response.html(template.render(data=data))
 
+@app.get('/post')
+async def get_post(request):
+    data = {}
+    template = env.get_template('post.html') #Получили шаблон
+    return response.html(template.render(data=data))
+
 @app.post('/like/post')
 async def like_post(request):
     userid = request.ctx.session.get('user_id')

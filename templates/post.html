@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Новость</title>
+    <link rel="stylesheet" href="static/css/global.css" />
+    <link rel="stylesheet" href="static/css/slider.css" />
+    <link rel="stylesheet" href="static/css/post.css" />
+    <script src="static/js/post.js" defer></script>
+    <script src="static/js/slider.js" defer></script>
+  </head>
+  <body>
+    <!-- style -->
+    <header class="header" style="border: 3px solid rgb(10, 174, 239)">
+      <div class="header__wrapper">
+        <div class="header__logo">
+          <div class="header__logo-img">
+            <img
+              src="static/images/logo_Kampus.png"
+              alt="Логотип Тюменского Кампуса"
+            />
+          </div>
+          <!-- Название -->
+          <div class="header__logo-text">ТюмГУ</div>
+        </div>
+        <div class="header__account">
+          <img src="static/images/logo_Profile.png" alt="Иконка профиля" />
+        </div>
+      </div>
+    </header>
+    <main>
+      <section class="events__info">
+        <div class="enets__wrapper" style="border: 3px solid rgb(10, 174,
+        239)"">
+        <div class="event__header">Мероприятия</div>
+        <!-- Пробую свои силы -->
+          <!-- <div class="event__slider">
+          <div class="slider-container">
+            <div class="slide">
+              <img src="static/images/logo_Kampus.png" alt="" />
+            </div>
+            <div class="slide">
+              <img src="static/images/logo_Kampus.png" alt="" />
+            </div>
+            <div class="slide">
+              <img src="static/images/logo_Kampus.png" alt="" />
+            </div>
+          </div>
+          <button class="prev-slide">
+            <img src="static/images/left_arrow.png" alt="" />
+          </button>
+          <button class="next-slide">
+            <img src="static/images/right_arrow.png" alt="" />
+          </button>
+          </div> -->
+        </div>
+        <div class="info_people_wrapper">
+          <!-- тут -->
+          <div class="info__wrapper" style="border: 3px solid rgb(10, 174, 239);">
+          <div class="info__header">Информация</div>
+          <div class="info__text">wfafwafafwaf</div>
+          </div>
+          <div class="people__wrapper" style="border: 3px solid rgb(10, 174, 239);">
+            <div class="people">
+              <div class="people__image">
+                <img src="static/images/logo_Profile.png" alt="">
+              </div>
+              <!-- тут -->
+              <div class="people__text">
+                <div class="people__name">Павел Максимович</div>
+                <div class="people__position">Админ</div>
+              </div>
+            </div>
+            <div class="people">
+              <div class="people__image">
+                <img src="static/images/logo_Profile.png" alt="">
+              </div>
+              <!-- тут -->
+              <div class="people__text">
+                <div class="people__name">Павел Максимович</div>
+                <div class="people__position">Админ</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="post" style="border: 4px solid rgb(0, 184, 254)">
+        <h2>Новости</h2>
+        <!-- style тут для каждого разного -->
+        <div
+          class="post__wrapper"
+          style="
+            background: linear-gradient(
+              180deg,
+              rgba(10, 174, 239, 0.2) 0%,
+              rgba(132, 214, 247, 0.2) 45.482%,
+              rgba(255, 255, 255, 0.2) 100%
+            );
+          "
+        >
+          <div class="post__header">
+            <div class="post__logo">
+              <!-- Либо здесь еще логотип колледжа -->
+              <img src="static/images/logo_Kampus.png" alt="" />
+            </div>
+            <!-- Заголовок -->
+            <div class="post__head">Заголовок новости</div>
+            <div class="post__burger-menu">
+              <img src="static/images/burger-menu.png" alt="" />
+            </div>
+          </div>
+          <div class="post__title">
+            <!-- Текст -->
+            <div class="post__text">
+              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Illo
+              totam quidem, asperiores saepe modi repellendus natus atque
+              maiores deserunt laboriosam harum deleniti. Ad distinctio culpa
+              sequi laboriosam magni eos sit!
+            </div>
+            <div class="post__show-more">
+              <a href="#">показать еще</a>
+            </div>
+          </div>
+          <div class="post__image">
+            <!-- Загрузка изображения -->
+            <img src="" alt="" />
+          </div>
+          <div class="post__buttons">
+            <div class="post__button">
+              <button onclick="increaseCounter()">
+                <img src="static/images/like_icon.png" alt="" />
+              </button>
+              <!-- Счетчик -->
+              <div class="post__count" id="counter">0</div>
+            </div>
+            <div class="post__button">
+              <button>
+                <img src="static/images/comment_icon.png" alt="" />
+              </button>
+            </div>
+            <div class="post__button">
+              <button><img src="static/images/share_icon.png" alt="" /></button>
+            </div>
+          </div>
+          <div class="post__wrapper-comments">
+            <!-- Загрузка комментариев -->
+            <div class="post__comments">
+              <div class="post__comment">
+                <img
+                  src="static/images/logo_Profile.png"
+                  alt="Иконка профиля"
+                />
+                <div class="post__comment-text">
+                  <div class="post__comment-head">Павел Максимович</div>
+                  <div class="post__comment-footer">
+                    ТИУ говно я туду никогда не поступлю.. Фууууууууу...
+                  </div>
+                </div>
+              </div>
+              <div class="post__comment">
+                <img
+                  src="static/images/logo_Profile.png"
+                  alt="Иконка профиля"
+                />
+                <div class="post__comment-text">
+                  <div class="post__comment-head">Павел Максимович</div>
+                  <div class="post__comment-head">
+                    ТИУ говно я туду никогда не поступлю.. Фууууууууу...
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="post__comments-all">
+              <a href="#">все комментарии</a>
+            </div>
+          </div>
+          <div class="post__add-comment">
+            <!-- Загрузка формы добавления комментария -->
+            <div class="post__form">
+              <form action="">
+                <img
+                  src="static/images/logo_Profile.png"
+                  alt="Иконка профиля"
+                />
+                <input
+                  class="post__input"
+                  type="text"
+                  placeholder="Ваш комментарий"
+                />
+                <input
+                  type="image"
+                  src="static/images/BtnSend.png"
+                  alt="Отправить"
+                />
+              </form>
+            </div>
+          </div>
+        </div>
+        <div
+          class="post__wrapper"
+          style="
+            background: linear-gradient(
+              180deg,
+              rgba(10, 174, 239, 0.2) 0%,
+              rgba(132, 214, 247, 0.2) 45.482%,
+              rgba(255, 255, 255, 0.2) 100%
+            );
+          "
+        >
+          <div class="post__header">
+            <div class="post__logo">
+              <!-- Либо здесь еще логотип колледжа -->
+              <img src="static/images/logo_Kampus.png" alt="" />
+            </div>
+            <!-- Заголовок -->
+            <div class="post__head">Заголовок новости</div>
+            <div class="post__burger-menu">
+              <img src="static/images/burger-menu.png" alt="" />
+            </div>
+          </div>
+          <div class="post__title">
+            <!-- Текст -->
+            <div class="post__text">
+              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Illo
+              totam quidem, asperiores saepe modi repellendus natus atque
+              maiores deserunt laboriosam harum deleniti. Ad distinctio culpa
+              sequi laboriosam magni eos sit!
+            </div>
+            <div class="post__show-more">
+              <a href="#">показать еще</a>
+            </div>
+          </div>
+          <div class="post__image">
+            <!-- Загрузка изображения -->
+            <img src="" alt="" />
+          </div>
+          <div class="post__buttons">
+            <div class="post__button">
+              <button onclick="increaseCounter()">
+                <img src="static/images/like_icon.png" alt="" />
+              </button>
+              <!-- Счетчик -->
+              <div class="post__count" id="counter">0</div>
+            </div>
+            <div class="post__button">
+              <button>
+                <img src="static/images/comment_icon.png" alt="" />
+              </button>
+            </div>
+            <div class="post__button">
+              <button><img src="static/images/share_icon.png" alt="" /></button>
+            </div>
+          </div>
+          <div class="post__wrapper-comments">
+            <!-- Загрузка комментариев -->
+            <div class="post__comments">
+              <div class="post__comment">
+                <img
+                  src="static/images/logo_Profile.png"
+                  alt="Иконка профиля"
+                />
+                <div class="post__comment-text">
+                  <div class="post__comment-head">Павел Максимович</div>
+                  <div class="post__comment-footer">
+                    ТИУ говно я туду никогда не поступлю.. Фууууууууу...
+                  </div>
+                </div>
+              </div>
+              <div class="post__comment">
+                <img
+                  src="static/images/logo_Profile.png"
+                  alt="Иконка профиля"
+                />
+                <div class="post__comment-text">
+                  <div class="post__comment-head">Павел Максимович</div>
+                  <div class="post__comment-head">
+                    ТИУ говно я туду никогда не поступлю.. Фууууууууу...
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="post__comments-all">
+              <a href="#">все комментарии</a>
+            </div>
+          </div>
+          <div class="post__add-comment">
+            <!-- Загрузка формы добавления комментария -->
+            <div class="post__form">
+              <form action="">
+                <img
+                  src="static/images/logo_Profile.png"
+                  alt="Иконка профиля"
+                />
+                <input
+                  class="post__input"
+                  type="text"
+                  placeholder="Ваш комментарий"
+                />
+                <input
+                  type="image"
+                  src="static/images/BtnSend.png"
+                  alt="Отправить"
+                />
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,42 @@
+.event__slider {
+  position: relative;
+}
+
+.slider-container {
+  width: 249px;
+  height: 174px;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.slide {
+  float: left;
+  position: absolute;
+  top: 69px;
+  left: 170px;
+}
+
+.prev-slide,
+.next-slide {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.prev-slide {
+  left: 77px;
+}
+
+.next-slide {
+  right: 47px;
+}
+
+.prev-slide img,
+.next-slide img {
+  width: 30px;
+  height: auto;
+}
