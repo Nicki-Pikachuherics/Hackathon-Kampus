@@ -4,51 +4,52 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Главная</title>
-    <link rel="stylesheet" href="static/css/global.css" />
-    <link rel="stylesheet" href="static/css/index.css" />
+    <link rel="stylesheet" href="/static/css/global.css" />
+    <link rel="stylesheet" href="/static/css/index.css" />
   </head>
   <body>
     <header class="header">
       <div class="header__wrapper">
         <div class="header__logo">
           <img
-            src="static/images/logo_Kampus.png"
+            src="/static/images/logo_Kampus.png"
             alt="Логотип Тюменского Кампуса"
           />
         </div>
         <nav>
           <ul class="menu">
             <li class="menu__item">
-              <a href="/university/ТюмГУ"><img src="static/images/logo_TSU.png" alt="logo_TSU" />ТюмГУ</a
+              <a href="/university/ТюмГУ"><img src="/static/images/logo_TSU.png" alt="logo_TSU" />ТюмГУ</a
               >
             </li>
             <li class="menu__item">
-              <a href="/university/ТИУ"><img src="static/images/logo_TIU.png" alt="logo_TIU" />ТИУ</a
+              <a href="/university/ТИУ"><img src="/static/images/logo_TIU.png" alt="logo_TIU" />ТИУ</a
               >
             </li>
             <li class="menu__item">
               <a href="/university/ТюмГМУ"
                 ><img
-                  src="static/images/logo_TumGUM.png"
+                  src="/static/images/logo_TumGUM.png"
                   alt="logo_TumGUM"
-                />ТюмГУМ</a
+                />ТюмГМУ</a
               >
+              <!-- HUJUOWUOJFJAuojOUwfuo ГМУ -->
             </li>
             <li class="menu__item">
               <a href="/university/ГАУСЗ"
-                ><img src="static/images/logo_GauNw.png" alt="logo_GauNw" />ГАУ СЗ</a
+                ><img src="/static/images/logo_GauNw.png" alt="logo_GauNw" />ГАУ СЗ</a
               >
             </li>
             <li class="menu__item">
               <a href="/university/ТГИК"
-                ><img src="static/images/logo_Tgic.png" alt="logo_Tgic" />ТГИК</a
+                ><img src="/static/images/logo_Tgic.png" alt="logo_Tgic" />ТГИК</a
               >
             </li>
           </ul>
         </nav>
         <div class="header__account">
           {% if data['user'] %}
-          <a href="/profile"><img src="static/images/logo_Profile.png" alt="Иконка профиля"/>
+          <a href="/profile"><img src="/static/images/logo_Profile.png" alt="Иконка профиля"/>
             <h5>{{data['user']['name']}} {{data['user']['surname']}} {{data['user']['lastname']}}</h5>
           </a>
           {% else %}
@@ -128,7 +129,7 @@
       <div class="footer__wrapper">
         <div class="footer__logo">
           <img
-            src="static/images/logo_Kampus.png"
+            src="/static/images/logo_Kampus.png"
             alt="Логотип Тюменского Кампуса"
           />
         </div>
