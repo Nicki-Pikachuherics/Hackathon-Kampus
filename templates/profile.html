@@ -7,50 +7,55 @@
     <link rel="stylesheet" href="/static/css/global.css" />
     <link rel="stylesheet" href="/static/css/profile.css" />
   </head>
-  <body>
-    {% if not data['user']['login'] %}
-    <h1>
-      Укажите пожалуйста свой новый логин и пароль которые вы будете
-      использовать для авторизации
-    </h1>
-    <form action="/update_user_info" method="post">
-      <label for="login">Логин</label>
-      <input type="text" name="login" placeholder="Логин" required />
-      <label for="password">Пароль</label>
-      <input type="password" name="password" placeholder="Пароль" required />
-      <input type="submit" value="Изменить" />
-    </form>
-    {% else %}
-    <div class="header">
-      <h1>Профиль пользователя</h1>
-      <a href="/">На главную</a>
-    </div>
-    <div class="profile__wrapper">
-      <div class="profile__header">
-        <div class="profile__person">
-          <p>Логин: {{data['user']['login']}}</p>
-          <p>Имя: {{data['user']['name']}}</p>
-          <p>Фамилия: {{data['user']['surname']}}</p>
-          <p>Отчество: {{data['user']['lastname']}}</p>
-        </div>
-        <div>
-          <p>Телефон: {{data['user']['phone_number']}}</p>
-          <p>Почта: {{data['user']['email']}}</p>
-          <p>
-            Пол: {% if data['user']['gender'] == 1 %}Мужской{% else %}Женский{%
-            endif %}
-          </p>
-        </div>
+  <body class="new">
+    <div class="new__wrapper">
+      {% if not data['user']['login'] %}
+      <h1 class="header__new">
+        Укажите пожалуйста свой новый логин и пароль которые вы будете
+        использовать для авторизации
+      </h1>
+      <form action="/update_user_info" method="post">
+        <label for="login">Логин</label>
+        <input type="text" name="login" placeholder="Логин" required />
+        <label for="password">Пароль</label>
+        <input type="password" name="password" placeholder="Пароль" required />
+        <input type="submit" value="Изменить" />
+      </form>
+      {% else %}
+      <div class="header">
+        <h1>Профиль пользователя</h1>
+        <a href="/">На главную</a>
       </div>
-
-      <div class="profile__info">
-        <a href="{{data['user']['university']['name']}}"
-          ><p>
-            Университет: {{data['user']['university']['options']['fullName']}}
-          </p></a
-        >
-        <p>Профессия: {{data['user']['profession']}}</p>
-        {% endif %}
+      <div class="profile__wrapper">
+        <div class="profile__header">
+          <img src="/static/images/logo_Profile.png" alt="" />
+          <div class="profile__person">
+            <div>
+              <p>Логин: {{data['user']['login']}}</p>
+              <p>Имя: {{data['user']['name']}}</p>
+              <p>Фамилия: {{data['user']['surname']}}</p>
+              <p>Отчество: {{data['user']['lastname']}}</p>
+            </div>
+            <div>
+              <p>Телефон: {{data['user']['phone_number']}}</p>
+              <p>Почта: {{data['user']['email']}}</p>
+              <p>
+                Пол: {% if data['user']['gender'] == 1 %}Мужской{% else
+                %}Женский{% endif %}
+              </p>
+            </div>
+          </div>
+          <div class="profile__info">
+            <a href="/university/{{data['user']['university']['name']}}"
+              ><p>
+                Университет:
+                {{data['user']['university']['options']['fullName']}}
+              </p></a
+            >
+            <p>Профессия: {{data['user']['profession']}}</p>
+            {% endif %}
+          </div>
+        </div>
       </div>
     </div>
   </body>
